@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Название">
+    
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="images/icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon.png">
+    
+    <title>Резерв+</title>
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e1decb;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 390px;
+            margin: 0 auto;
+        }
+
+        /* Ограничиваем видимую область одним экраном */
+        .screens-viewport {
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        /* «Дорожка», на которой лежат все экраны в ряд */
+        .screens-track {
+            display: flex;
+            width: 100%;
+            transition: transform 0.1s ease-in-out;
+        }
+
+        /* Каждый отдельный экран */
+        .screen {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: transparent;
+            box-shadow: none;
+            width: 86%;
+            justify-content: center;
+            height: 470px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        .container1 img {
+            width: 110%;
+            height: 690px;
+            margin-left: -20px;
+        }
+
+        .ram {
+            top: 152px;
+            border-radius: 7px;
+            width: 87%;
+            height: 478px;
+            position: absolute;
+            background-color: #a4a190;
+            box-shadow: none;
+            z-index: -1;
+        }
+
+        .rezid {
+            font-size: 18px;
+            padding-top: 5px;
+        }
+
+        .rezid1 {
+            font-size: 27px;
+            padding-top: 5px;
+        }
+
+        .rezidim {
+            width: 35px;
+            height: 40px;
+            padding-top: 12px;
+        }
+
+        .rezidim1 {
+            width: 50px;
+            height: 50px;
+            padding-top: 12px;
+        }
+
+        .implus {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            right: 8.5px;
+            bottom: 4px; 
+            z-index: 1;
+            border-radius: 50px;
+            object-fit: contain;
+        }
+
+        .implus1 {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            right: 5px;
+            bottom: -53px;
+            border-radius: 50px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rezd-card-container.flipped .implus1 {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .rezd {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            margin-right: 10px;
+            padding-top: 5px;
+        }
+
+        .rezd1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 0px;
+            margin-right: -10px;
+            margin-bottom: 10px;
+            margin-top: -15px;
+        }
+
+        .inf {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .fio1 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -14px;
+            margin-left: -10px;
+        }
+
+        .fio1 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #545140;
+            padding-left: 15px;
+        }
+
+        .fio1 h1 {
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+
+        .fio4 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -14px;
+            margin-left: -20px;
+        }
+
+        .fio4 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #060606;
+            padding-left: 15px;
+        }
+
+        .fio4 h1 {
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+
+        .fio {
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            font-size: 11px;
+            margin-top: 35px;
+            margin-left: 3px;
+            justify-content: space-between;
+            margin-right: 10px;
+        }
+
+        .photo, .photo1 {
+            width: 145px;
+            height: 190px;
+            margin-left: -30px;
+            border-radius: 8px;
+            margin-right: 10px;
+            left: 1%;
+            margin-top: -15px;
+            object-fit: cover;
+        }
+
+        .cont1 {
+            height: 150px;
+        }
+
+        .information {
+            height: 325px;
+            margin-top: -20px;
+        }
+
+        .name {
+            margin-top: -13px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        .fio2 .h3 {
+            margin-left: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #545140;
+            font-weight: 500;
+            margin-top: -5px;
+        }
+
+        .spov {
+            background-color: white;
+            width: 140px;
+            height: 29px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 9.7px;
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            top: 40px;
+            right: 25px;
+        }
+
+        .din {
+            width: 20px;
+            height: 25px;
+            position: absolute;
+            right: 8px;
+            top: 2px;
+        }
+
+        .spov h2 {
+            position: absolute;
+            top: -7px;
+            right: 31px;
+        }
+
+        .pyst {
+            height: 5px;
+        }
+
+        .slot {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            height: 45px;
+            margin-top: 1px;
+        }
+
+        .tex, .str {
+            margin-top: 10px;
+        }
+
+        .str img {
+            width: 30px;
+            height: 30px;
+            margin-top: -5px;
+        }
+
+        .serv {
+            margin-bottom: 40px;
+        }
+
+        .serv h1 {
+            font-weight: 500;
+        }
+
+        /* Общие стили бегущей строки */
+        .marquee-container, .marquee-container1 {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #6b4c27;
+            padding: 0;
+            box-sizing: border-box;
+            height: 24px;
+        }
+
+        .marquee-container {
+            margin-top: -10px;
+        }
+
+        .marquee-container1 {
+            width: 400px;
+            margin-left: -25px;
+        }
+
+        .marquee-track, .marquee-track1 {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite;
+            will-change: transform;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Нижняя панель навигации */
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 400px;
+            height: 60px;
+            border-radius: 50px;
+            background-color: #f7f7eb;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 5px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #262626;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            outline: none;
+            height: 47px;
+            border-radius: 30px;
+            transition: background-color 0.2s ease;
+            padding: 3px 0;
+            flex: 1;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bottom-nav .nav-icon {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 3px;
+        }
+
+        .bottom-nav .nav-text {
+            line-height: 1.1;
+        }
+
+        .bottom-nav .nav-item .solid-element {
+            display: none;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #262626;
+            background-color: #e5e1cf;
+        }
+
+        .bottom-nav .nav-item.active .outline-element {
+            display: none;
+        }
+
+        .bottom-nav .nav-item.active .solid-element {
+            display: block;
+            color: #262626;
+        }
+
+        .bottom-nav .nav-item.active .nav-text {
+            font-weight: 700 !important;
+        }
+
+        .bottom-nav .nav-item.active line {
+            stroke: #fcfcfc !important;
+        }
+
+        .bottom-nav .nav-item.active .diamond {
+            fill: #262626 !important;
+        }
+
+        .bottom-nav .nav-item.active [class*="box-"] {
+            fill: #262626;
+            stroke: #262626;
+        }
+
+        .botnav1 {
+            background-color: #f7f7eb;
+            width: 90%;
+            height: 65px;
+            z-index: -1;
+            position: absolute;
+            top: 690px;
+            border-radius: 50px;
+            display: none;
+        }
+
+        /* Модальные окна / Шторки */
+        .modal-overlay, .actmodal1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 2000;
+        }
+
+        .modal-overlay.open, .actmodal1.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-sheet {
+            width: 95%;
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            height: 210px;
+            padding: 12px 24px 36px 24px;
+            box-sizing: border-box;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 45px;
+        }
+
+        .modsh {
+            width: 100%;
+            max-width: 450px;
+            height: 780px;
+            background-color: #e1decb;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            margin-top: -100px;
+            padding: 12px 0 24px 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        .modal-overlay.open .modal-sheet,
+        .actmodal1.open .modsh {
+            transform: translateY(0);
+        }
+
+        .sheet-handle {
+            width: 38px;
+            height: 3.5px;
+            background-color: #050505;
+            border-radius: 2px;
+            margin: 2px auto 20px auto;
+        }
+
+        .sheet-handle1 {
+            width: 40px;
+            height: 7px;
+            background-color: #050505;
+            border-radius: 2px;
+            margin: 0px auto 20px auto;
+        }
+
+        .sheet-item {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 13px 0;
+            border-bottom: 0.5px solid #efeff4;
+        }
+
+        .sheet-item:last-child {
+            border-bottom: none;
+        }
+
+        .sheet-item img {
+            width: 25px;
+            height: 25px;
+            margin-right: 16px;
+            object-fit: contain;
+        }
+
+        .sheet-text1, .sheet-text2, .sheet-text3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        .sheet1 {
+            height: 330px;
+            background-color: white;
+            color: #000000;
+            margin-top: 25px;
+            border-radius: 15px;
+        }
+
+        .sheet1 h3 {
+            color: #000000;
+        }
+
+        .sheet1 .h3 {
+            margin-left: 15px;
+            font-size: 15px;
+            margin-bottom: 25px;
+            color: #050505;
+            font-weight: 500;
+            margin-top: 0px;
+            padding-top: 50px;
+        }
+
+        .sheet2 {
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            flex-grow: 1;
+            box-sizing: border-box;
+            background-color: #e1decb;
+        }
+
+        .sheet4 {
+            height: 130px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+
+        .sheet4 .vids {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            padding-top: 2px;
+            margin-right: 60px;
+        }
+
+        .sheet4 hr, .sheet5 hr, hr {
+            border: none;
+            border-top: 0.5px solid #000000;
+        }
+
+        .sheet4 .typvids {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+        }
+
+        .sheet4 .typvids h2 {
+            margin-bottom: -5px;
+        }
+
+        .sheet5 {
+            height: 360px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+
+        .sheet5 .amyr h2 {
+            margin-bottom: -15px;
+        }
+
+        .amyr {
+            margin-top: -5px;
+        }
+
+        .tcksp {
+            margin-bottom: 0px;
+            padding-top: 5px;
+            margin-left: 15px;
+        }
+
+        .sheet5 hr {
+            margin-top: 30px;
+        }
+
+        .zvanna, .vos {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            margin-right: 80px;
+        }
+
+        .zvanna { margin-top: -5px; }
+        .vos { margin-top: -10px; }
+
+        .kat {
+            margin-bottom: 20px;
+            margin-top: 30px;
+            margin-left: 15px;
+        }
+
+        .kat h2 {
+            margin-top: -5px;
+        }
+
+        .potr {
+            margin-top: -10px;
+            margin-left: 15px;
+        }
+
+        .potr h2 {
+            margin-bottom: -15px;
+        }
+
+        .nom h2 {
+            margin-top: -5px;
+            margin-left: 15px;
+        }
+
+        .sheet6 {
+            height: 205px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+
+        .sheet6 h1 {
+            font-size: 14px;
+            padding-top: 10px;
+            margin-bottom: -5px;
+        }
+
+        .sheet7 {
+            height: 60px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .pystoy {
+            height: 40px;
+        }
+
+        .tel, .email {
+            padding-top: 5px;
+            margin-left: 15px;
+        }
+
+        .tel h2, .email h2 {
+            margin-bottom: -5px;
+        }
+
+        .adresa1 h2 {
+            margin-bottom: -15px;
+        }
+
+        .adresa {
+            margin-left: 15px;
+        }
+
+        .dat h2 {
+            margin-bottom: -15px;
+        }
+
+        .rnokpp {
+            margin-top: 5px;
+        }
+
+        .name3 {
+            margin-left: 15px;
+            margin-bottom: -35px;
+            padding-top: 5px;
+        }
+
+        .name1 {
+            margin-top: 10px;
+            margin-bottom: -13px;
+            color: #000000;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .dat {
+            margin-left: 15px;
+        }
+
+        .cif {
+            margin-right: 50px;
+        }
+
+        /* 3D-переворот карточки */
+        .rezd-card-container {
+            perspective: 1000px;
+            width: 100%;
+            margin-top: 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rezd-card {
+            position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .rezd-card-container.flipped .rezd-card {
+            transform: rotateY(180deg);
+        }
+
+        .rezd-face {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-sizing: border-box;
+            background-color: #d5d3be;
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .rezd-front {
+            position: relative;
+        }
+
+        .rezd-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0px 20px;
+        }
+
+        .rezd-back img {
+            width: 115%;
+            margin-top: -2px;
+            height: 480px;
+            z-index: 20;
+        }
+
+        .fio5 {
+            display: flex;
+            flex-direction: row;
+            margin-left: 45px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="screens-viewport">
+        <div class="screens-track" id="screensTrack">
+            <!-- Первый экран -->
+            <div class="screen">
+                <div class="cont1">
+                    <div class="spov">
+                        <h2>Сповіщення</h2>
+                        <img class="din" src="din.jpg" alt="">
+                    </div>
+                </div>
+                <div class="ram"></div>
+                <div class="container">
+                    <div class="rezd-card-container">
+                        <div class="rezd-card">
+                            <!-- Лицевая сторона -->
+                            <div class="rezd-face rezd-front">
+                                <div class="information" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                                    <div class="rezd">
+                                        <h1 class="rezid">Резерв ID</h1>
+                                        <img class="rezidim" src="rezidim.jpg" alt="">
+                                    </div>
+                                    <div class="inf">
+                                        <img class="photo" src="photo2.jpg" alt="">
+                                        <div class="fio1">
+                                            <h2>Дата</h2>
+                                            <h2>народження:</h2>
+                                            <h1>01.01.2000</h1>
+                                            <h2>Відстрочка до:</h2>
+                                            <h1>03.05.2027</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="marquee-container">
+                                    <div class="marquee-track" id="marquee-track"></div>
+                                </div>
+                                
+                                <div class="fio">
+                                    <div class="fio2">
+                                        <div class="h3">текст</div>
+                                        <h1 class="name">ФАМИЛИЯ</h1>
+                                        <h1 class="name">ИМЯ</h1>
+                                        <h1 class="name">Отчество</h1>
+                                    </div>
+                                    <button class="implus1"><img class="implus" src="plus.jpg" alt=""></button>
+                                </div>
+                            </div>
+
+                            <!-- Обратная сторона -->
+                            <div class="rezd-face rezd-back" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                                <img src="backqr1.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pyst"></div>
+                <div class="botnav1"></div>
+            </div>
+
+            <!-- Второй экран -->
+            <div class="screen">
+                <div class="pyst"></div>
+                <div class="container">
+                    <div class="serv"><h1>Сервіси</h1></div>
+                    <div class="services">
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текстк</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">текст</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                        <div class="slot"><div class="tex">Штрафи</div><div class="str"><img src="str.jpg" alt=""></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Третий экран -->
+            <div class="screen">
+                <div class="container1"><img src="vak1.jpg" alt=""></div>
+            </div>
+
+            <!-- Четвертый экран -->
+            <div class="screen">
+                <div class="container1"><img src="men1.jpg" alt=""></div>
+            </div>
+        </div>
+
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="switchTab(event, 0, this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                    <rect class="solid-element" x="5" y="3" width="16" height="20" rx="1" fill="currentColor"/>
+                    <line class="line-element" x1="6" y1="14" x2="20" y2="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <line class="line-element" x1="6" y1="18.5" x2="20" y2="18.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-text">Резерв ID</span>
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 1, this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <rect class="box-1" x="1.5" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <rect class="box-2" x="13" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <rect class="box-3" x="1.5" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <rect class="box-4" x="13" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <span class="nav-text">Сервіси</span>
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 2, this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <rect class="solid-element" x="5" y="3" width="16" height="20" rx="2" fill="currentColor"/>
+                    <rect class="diamond" x="10.5" y="8.5" width="7" height="7" transform="rotate(45 12 11)" fill="currentColor"/>
+                </svg>
+                <span class="nav-text">Вакансії</span>
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab(event, 3, this)">
+                <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                    <line x1="4" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="4" y1="13.5" x2="20" y2="13.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+                <span class="nav-text">Меню</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Модальное окно (плюсик) -->
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet">
+                <a href="#" class="sheet-item" id="openFullModalBtn">
+                    <img src="ipd1.jpg" alt="">
+                    <span class="sheet-text1">Переглянути документ</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="zpd3.jpg" alt="">
+                    <span class="sheet-text2">Завантажити PDF</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="od2.jpg" alt="">
+                    <span class="sheet-text3">Оновити документ</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно документа (Резерв ID) -->
+    <div class="actmodal1" id="actmodal1">
+        <div class="modsh">
+            <div class="sheet-handle1"></div>
+            <div class="sheet2">
+                <div class="rezd1">
+                    <h1 class="rezid1">Резерв ID</h1>
+                    <img class="rezidim1" src="rezidim1.jpg" alt="">
+                </div>
+                <div class="marquee-container1">
+                    <div class="marquee-track1" id="marquee-track1"></div>
+                </div>
+                <div class="sheet1">
+                    <div class="name3">
+                        <div class="name1">Фамилия</div>
+                        <div class="name1">ИМЯ</div>
+                        <div class="name1">Отчество</div>
+                    </div>
+                    <div class="h3">текст</div>
+                    <div class="inf1">
+                        <div class="fio5">
+                            <img class="photo1" src="photo2.jpg" alt="">
+                            <div class="fio4">
+                                <div class="datanar">
+                                    <h2>Дата народження:</h2>
+                                    <h1>01.01.2000</h1>
+                                </div>
+                                <div class="rnokpp">
+                                    <h2>РНОКПП:</h2>
+                                    <h1>0000000000</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet4">
+                    <div class="vids">
+                        <h2>текст</h2>
+                        <h2>03.05.2027</h2>
+                    </div>
+                    <hr>
+                    <div class="typvids">
+                        <h2>Текст:</h2>
+                        <h2>текст</h2>
+                    </div>
+                </div>
+                <div class="sheet5">
+                    <div class="tcksp">
+                        <h2>текст</h2>
+                        <div class="amyr">
+                            <h2>текст</h2>
+                            <h2>текст</h2>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="bil">
+                        <div class="zvanna">
+                            <h2>Звання:</h2>
+                            <h2>Солдат</h2>
+                        </div>
+                        <div class="vos">
+                            <h2>ВОС:</h2>
+                            <h2>999097</h2>
+                        </div>
+                        <div class="potr">
+                            <h2>текст</h2>
+                            <h2>текст</h2>
+                            <h2>текст</h2>
+                        </div>
+                        <div class="kat">
+                            <h2>Категорія обліку:</h2>
+                            <h2>текст</h2>
+                        </div>
+                        <div class="nom">
+                            <h2>текст</h2>
+                            <h2>000000000000000000000</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet6">
+                    <div class="tel">
+                        <h2>Телефон:</h2>
+                        <h2>+380 00 000 0000</h2>
+                    </div>
+                    <div class="email">
+                        <h2>Email:</h2>
+                        <h2>0000000000@gmail.com</h2>
+                    </div>
+                    <div class="adresa">
+                        <div class="adresa2">
+                            <h1>Адреса проживання:</h1>
+                        </div>
+                        <div class="adresa1">
+                            <h2>текст</h2>
+                            <h2>текст</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet7">
+                    <div class="dat">
+                        <h2>Дата останнього</h2>
+                        <h2>уточнення даних:</h2>
+                    </div>
+                    <div class="cif">
+                        <h2>05.05.2026</h2>
+                    </div>
+                </div>
+                <div class="pystoy"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initMarquee() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const text = `Документ оновлено о ${hours}:${minutes} | ${day}.${month}.${year}`;
+            const repeatedPart = `<span style="position: relative; top: -6px">${text}</span> &nbsp;&nbsp;<span style="font-size: 24px; position: relative; top: -4px">&bull;</span> &nbsp;&nbsp;`;
+            const fullHTML = repeatedPart.repeat(6);
+
+            const trackElement = document.getElementById('marquee-track');
+            if (trackElement) trackElement.innerHTML = fullHTML;
+        }
+
+        function initMarquee1() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+
+            const text = `Документ оновлено о ${hours}:${minutes} | ${day}.${month}.${year}`;
+            const repeatedPart = `<span style="position: relative; top: -6px">${text}</span> &nbsp;&nbsp;<span style="font-size: 24px; position: relative; top: -4px">&bull;</span> &nbsp;&nbsp;`;
+            const fullHTML = repeatedPart.repeat(6);
+
+            const trackElement1 = document.getElementById('marquee-track1');
+            if (trackElement1) trackElement1.innerHTML = fullHTML;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initMarquee();
+            initMarquee1();
+
+            // Активная ссылка навигации
+            const fileName = window.location.pathname.split("/").pop() || "index.html";
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                const href = item.getAttribute('href');
+                item.classList.remove('active');
+                if (href === fileName) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // --- Логика модального окна (плюсик) ---
+        const overlay = document.getElementById('actionModal');
+        const sheetModal = overlay ? overlay.querySelector('.modal-sheet') : null;
+        const openBtn = document.querySelector('.implus1');
+        const open1btn = document.getElementById('openFullModalBtn');
+
+        function openActionModal(e) {
+            if (e) e.preventDefault();
+            if (overlay) overlay.classList.add('open');
+        }
+
+        function closeActionModal() {
+            if (overlay) overlay.classList.remove('open');
+            if (sheetModal) sheetModal.style.transform = '';
+        }
+
+        if (openBtn) {
+            openBtn.addEventListener('click', openActionModal);
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeActionModal();
+            });
+        }
+
+        // Свайп шторки вниз
+        let startY = 0, currentY = 0, isDragging = false;
+        if (sheetModal) {
+            sheetModal.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                startY = e.clientY;
+                sheetModal.style.transition = 'none';
+            });
+        }
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging || !sheetModal) return;
+            currentY = e.clientY - startY;
+            if (currentY > 0) {
+                sheetModal.style.transform = `translateY(${currentY}px)`;
+            }
+        });
+
+        window.addEventListener('pointerup', () => {
+            if (!isDragging || !sheetModal) return;
+            isDragging = false;
+            sheetModal.style.transition = 'transform 0.3s cubic-bezier(0.1, 1, 0.1, 1)';
+            
+            if (currentY > 80) {
+                closeActionModal();
+            } else {
+                sheetModal.style.transform = 'translateY(0)';
+            }
+            currentY = 0;
+        });
+
+        function switchTab(event, index, element) {
+            if (event) event.preventDefault();
+            
+            // 1. Прокручиваем дорожку к нужному экрану
+            goToScreen(index);
+            
+            // 2. Снимаем выделение со всех кнопок
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 3. Подсвечиваем нажатую кнопку
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+
+        // --- Логика полного документа (actmodal1) ---
+        const docOverlay = document.getElementById('actmodal1');
+        const docSheet = docOverlay ? docOverlay.querySelector('.modsh') : null;
+
+        function openFullModal(e) {
+            if (e) e.preventDefault();
+            closeActionModal(); // Закрываем первую шторку
+            if (docOverlay) docOverlay.classList.add('open');
+        }
+
+        function closeFullModal() {
+            if (docOverlay) {
+                docOverlay.classList.remove('open');
+                if (docSheet) docSheet.style.transform = '';
+            }
+        }
+
+        if (open1btn) {
+            open1btn.addEventListener('click', openFullModal);
+        }
+
+        let docStartY = 0, docCurrentY = 0, docIsDragging = false;
+        if (docOverlay && docSheet) {
+            docOverlay.addEventListener('click', (e) => {
+                if (e.target === docOverlay) closeFullModal();
+            });
+
+            docSheet.addEventListener('pointerdown', (e) => {
+                if (docSheet.scrollTop === 0 || e.target.closest('.sheet-handle1') || e.target.closest('.rezd1')) {
+                    docIsDragging = true;
+                    docStartY = e.clientY;
+                    docSheet.style.transition = 'none';
+                }
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (!docIsDragging) return;
+                docCurrentY = e.clientY - docStartY;
+                if (docCurrentY > 0) {
+                    docSheet.style.transform = `translateY(${docCurrentY}px)`;
+                }
+            });
+
+            window.addEventListener('pointerup', () => {
+                if (!docIsDragging) return;
+                docIsDragging = false;
+                docSheet.style.transition = 'transform 0.3s cubic-bezier(0.1, 1, 0.1, 1)';
+                
+                if (docCurrentY > 120) {
+                    closeFullModal();
+                } else {
+                    docSheet.style.transform = 'translateY(0)';
+                }
+                docCurrentY = 0;
+            });
+        }
+
+        // Переключение экранов
+        function goToScreen(index) {
+            const track = document.getElementById('screensTrack');
+            if (track) {
+                track.style.transform = `translateX(-${index * 100}%)`;
+            }
+        }
+    </script>
+</body>
+</html>
