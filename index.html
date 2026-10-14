@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>reserv</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,7 +13,6 @@
     <meta name="apple-mobile-web-app-title" content="Название">
     
     <link rel="apple-touch-icon" href="icon.png">
-
     <link rel="apple-touch-icon" sizes="152x152" href="images/icon-152.png">
     <link rel="apple-touch-icon" sizes="167x167" href="images/icon-167.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon.png">
@@ -338,18 +337,6 @@
             padding: 3px 0px;
             flex: 1;
         }
-        .bottom-nav .nav-item.active line {
-            stroke: #fcfcfc !important;
-        }
-
-        .bottom-nav .nav-item.active .diamond {
-            fill: #262626 !important;
-        }
-
-        .bottom-nav .nav-item.active [class*="box-"] {
-            fill: #262626;
-            stroke: #262626;
-        }
 
         .bottom-nav .nav-icon {
             width: 22px;
@@ -375,6 +362,19 @@
             color: #262626;
         }
 
+        .bottom-nav .nav-item.active line {
+            stroke: #fcfcfc !important;
+        }
+
+        .bottom-nav .nav-item.active .diamond {
+            fill: #262626 !important;
+        }
+
+        .bottom-nav .nav-item.active [class*="box-"] {
+            fill: #262626;
+            stroke: #262626;
+        }
+
         .botnav1 {
             background-color: #f7f7eb; 
             width: 90%;
@@ -387,7 +387,7 @@
         }
 
         /* Затемнение экрана */
-        .modal-overlay {
+        .modal-overlay, .actmodal1 {
             position: fixed;
             top: 0;
             left: 0;
@@ -401,31 +401,13 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 2000;
+            touch-action: none;
         }
 
-        .modal-overlay.open {
+        .modal-overlay.open, .actmodal1.open {
             opacity: 1;
             pointer-events: auto;
-        }
-        .actmodal1 {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 2000;
-        }
-
-        .actmodal1.open {
-            opacity: 1;
-            pointer-events: auto;
+            touch-action: auto;
         }
 
         /* Выезжающие снизу окошки */
@@ -441,6 +423,7 @@
             transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
             font-family: 'Montserrat', sans-serif;
             margin-bottom: 45px;
+            touch-action: pan-y;
         }
         .modsh {
             width: 100%;
@@ -458,6 +441,7 @@
             transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
+            touch-action: pan-y;
         }
 
         .modal-overlay.open .modal-sheet {
@@ -467,7 +451,7 @@
             transform: translateY(0);
         }
 
-        .sheet-handle {
+        .sheet-handle, .sheet-handle1 {
             width: 38px;
             height: 3.5px;
             background-color: #050505;
@@ -478,10 +462,6 @@
         .sheet-handle1 {
             width: 40px;
             height: 7px;
-            background-color: #050505;
-            border-radius: 2px;
-            margin: 0px auto 20px auto;
-            cursor: pointer;
         }
 
         .sheet-item {
@@ -830,10 +810,10 @@
 
     <!-- Модальное окно 1 -->
     <div class="modal-overlay" id="actionModal">
-        <div class="modal-sheet">
+        <div class="modal-sheet" id="modalSheet">
             <div class="sheet-handle"></div>
             <div class="sheet">
-                <a href="#" class="sheet-item">
+                <a href="#" class="sheet-item" id="openFullModalBtn">
                     <img src="ipd1.jpg" alt="">
                     <span class="sheet-text1">Переглянути документ</span>
                 </a>
@@ -851,7 +831,7 @@
 
     <!-- Модальное окно 2 (Детальный документ) -->
     <div class="actmodal1" id="actmodal1">
-        <div class="modsh">
+        <div class="modsh" id="modsh">
             <div class="sheet-handle1"></div>
             <div class="sheet2">
                 <div class="rezd1">
@@ -993,11 +973,14 @@
             initMarquee();
         });
 
-        // Логика модальных окон и свайпов
+        // Логика модальных окон
         const modal = document.getElementById('actionModal');
+        const sheetModal = document.getElementById('modalSheet');
         const openBtn = document.querySelector('.implus1');
-        const open1btn = document.querySelector('.sheet-item');
+        
         const modal1 = document.getElementById('actmodal1');
+        const docSheet = document.getElementById('modsh');
+        const open1btn = document.getElementById('openFullModalBtn');
 
         if (openBtn) {
             openBtn.addEventListener('click', (e) => {
@@ -1006,65 +989,51 @@
             });
         }
 
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('open');
+        });
+
         if (open1btn) {
             open1btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                modal.classList.add('open'); // закрываем первое меню
-                modal1.classList.add('open'); // открываем документ
+                modal.classList.remove('open');
+                modal1.classList.add('open');
             });
         }
 
-        // Универсальная функция настройки свайпа и клика вне окна для закрытия
-        function setupModalSwipeAndClose(overlayElement, sheetElement) {
-            if (!overlayElement || !sheetElement) return;
+        modal1.addEventListener('click', (e) => {
+            if (e.target === modal1) modal1.classList.remove('open');
+        });
 
-            // Закрытие по клику на фон
-            overlayElement.addEventListener('click', (e) => {
-                if (e.target === overlayElement) {
-                    overlayElement.classList.remove('open');
-                    sheetElement.style.transform = '';
-                }
-            });
+        // Функция корректного свайпа вниз на сенсорных экранах
+        function enableSwipeToClose(sheetElement, closeCallback) {
+            if (!sheetElement) return;
 
-            // Закрытие по клику на полоску (handle)
-            const handle = sheetElement.querySelector('.sheet-handle, .sheet-handle1');
-            if (handle) {
-                handle.addEventListener('click', () => {
-                    overlayElement.classList.remove('open');
-                    sheetElement.style.transform = '';
-                });
-            }
-
-            // Свайп вниз
             let startY = 0;
             let currentY = 0;
             let isDragging = false;
 
-            sheetElement.addEventListener('pointerdown', (e) => {
-                // Разрешаем свайп, если прокрутка наверху или клик по ручке/шапке
-                if (sheetElement.scrollTop === 0 || e.target.closest('.sheet-handle, .sheet-handle1, .rezd1')) {
-                    isDragging = true;
-                    startY = e.clientY;
-                    sheetElement.style.transition = 'none';
-                }
-            });
+            sheetElement.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                sheetElement.style.transition = 'none';
+            }, { passive: true });
 
-            window.addEventListener('pointermove', (e) => {
+            sheetElement.addEventListener('touchmove', (e) => {
                 if (!isDragging) return;
-                currentY = e.clientY - startY;
+                currentY = e.touches[0].clientY - startY;
                 if (currentY > 0) {
                     sheetElement.style.transform = `translateY(${currentY}px)`;
                 }
-            });
+            }, { passive: true });
 
-            window.addEventListener('pointerup', () => {
+            sheetElement.addEventListener('touchend', () => {
                 if (!isDragging) return;
                 isDragging = false;
                 sheetElement.style.transition = 'transform 0.3s cubic-bezier(0.1, 1, 0.1, 1)';
-                
+
                 if (currentY > 100) {
-                    overlayElement.classList.remove('open');
-                    sheetElement.style.transform = '';
+                    closeCallback();
                 } else {
                     sheetElement.style.transform = 'translateY(0)';
                 }
@@ -1072,8 +1041,15 @@
             });
         }
 
-        setupModalSwipeAndClose(modal, modal.querySelector('.modal-sheet'));
-        setupModalSwipeAndClose(modal1, modal1.querySelector('.modsh'));
+        enableSwipeToClose(sheetModal, () => {
+            modal.classList.remove('open');
+            sheetModal.style.transform = '';
+        });
+
+        enableSwipeToClose(docSheet, () => {
+            modal1.classList.remove('open');
+            docSheet.style.transform = '';
+        });
     </script>
 </body>
 </html>
