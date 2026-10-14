@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reserv</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Название">
+    
+    <link rel="apple-touch-icon" href="icon.png">
+
+    <link rel="apple-touch-icon" sizes="152x152" href="images/icon-152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="images/icon-167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon.png">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e1decb;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 390px;
+        }
+        .container {
+            background-color: transparent;
+            box-shadow: none;
+            width: 86%;
+            justify-content: center;
+            height: 470px;
+            border-radius: 5px;
+        }
+        .ram {
+            top: 152px;
+            border-radius: 7px;
+            width: 87%;
+            height: 478px;
+            position: absolute;
+            background-color: #a4a190;
+            box-shadow: none;
+            z-index: -1;
+        }
+        .rezid {
+            font-size: 18px;
+            padding-top: 5px;
+        }
+        .rezid1 {
+            font-size: 27px;
+            padding-top: 5px;
+        }
+        .rezidim {
+            width: 35px;
+            height: 40px;
+            padding-top: 12px;
+        }
+        .rezidim1 {
+            width: 50px;
+            height: 50px;
+            padding-top: 12px;
+        }
+        .implus {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            right: 8.5px;
+            bottom: 4px; 
+            z-index: 1;
+            border-radius: 50px;
+            object-fit: contain;
+        }
+        .implus1 {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            right: 5px;
+            bottom: -53px;
+            border-radius: 50px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .rezd-card-container.flipped .implus1 {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .begstroke {
+            background-color: #6d4a1a;
+            color: #ffedd5;
+            height: 20px;
+            font-size: 10px;
+        }
+        .rezd {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            margin-right: 10px;
+            padding-top: 5px;
+        }
+        .rezd1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 0px;
+            margin-right: -10px;
+            margin-bottom: 10px;
+            margin-top: -15px;
+        }
+        .inf {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .fio1 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -14px;
+            margin-left: -10px;
+        }
+        .fio1 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #545140;
+            padding-left: 15px;
+        }
+        .fio1 h1 {
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+        .fio4 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -14px;
+            margin-left: -20px;
+        }
+        .fio4 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #060606;
+            padding-left: 15px;
+        }
+        .fio4 h1 {
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+        .fio {
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            font-size: 11px;
+            margin-top: 35px;
+            margin-left: 3px;
+            justify-content: space-between;
+            margin-right: 10px;
+        }
+        .photo {
+            width: 145px;
+            height: 190px;
+            margin-left: -30px;
+            border-radius: 8px;
+            margin-right: 10px;
+            left: 1%;
+            margin-top: -15px;
+        }
+        .photo1 {
+            width: 145px;
+            height: 190px;
+            margin-left: -30px;
+            border-radius: 8px;
+            margin-right: 10px;
+            left: 1%;
+            margin-top: -15px;
+        }
+        .cont1 {
+            height: 150px;
+        }
+        .information {
+            height: 325px;
+            margin-top: -20px;
+        }
+        .name {
+            margin-top: -13px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+        .fio2 .h3 {
+            margin-left: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #545140;
+            font-weight: 500;
+            margin-top: -5px;
+        }
+        .begstroke h2 {
+            margin-left: 10px;
+            padding-top: 2px;
+        }
+        .spov {
+            background-color: white;
+            width: 140px;
+            height: 29px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 9.7px;
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            top: 40px;
+            right: 25px;
+        }
+        .din {
+            width: 20px;
+            height: 25px;
+            position: absolute;
+            right: 8px;
+            top: 2px;
+        }
+        .spov h2 {
+            position: absolute;
+            top: -7px;
+            right: 31px;
+        }
+        .nav {
+            display: flex;
+            flex-direction: row;
+            height: 50px;
+            width: 105%;
+            background-color: white;
+            border-radius: 25px;
+            align-items: center;
+        }
+        .pyst {
+            height: 150px;
+        }
+        .slot {
+            margin-top: 1px;
+            width: 100%;
+        }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #6b4c27;
+            padding: 0px 0;
+            margin-top: -10px;
+            box-sizing: border-box;
+            height: 24px;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite; 
+            will-change: transform;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+        .marquee-container1 {
+            width: 400px;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #6b4c27;
+            padding: 0px 0;
+            box-sizing: border-box;
+            height: 24px;
+            margin-left: -25px;
+        }
+
+        .marquee-track1 {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite; 
+            will-change: transform;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 400px;
+            height: 60px;
+            border-radius: 50px;
+            background-color: #f7f7eb; 
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 5px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #262626; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            height: 47px;
+            border-radius: 30px;
+            transition: background-color 0.2s ease;
+            padding: 3px 0px;
+            flex: 1;
+        }
+        .bottom-nav .nav-item.active line {
+            stroke: #fcfcfc !important;
+        }
+
+        .bottom-nav .nav-item.active .diamond {
+            fill: #262626 !important;
+        }
+
+        .bottom-nav .nav-item.active [class*="box-"] {
+            fill: #262626;
+            stroke: #262626;
+        }
+
+        .bottom-nav .nav-icon {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 3px;
+        }
+
+        .bottom-nav .nav-text {
+            line-height: 1.1;
+        }
+
+        .bottom-nav .nav-item .solid-element {
+            display: none;
+        }
+
+        .bottom-nav .nav-item.active {
+            color: #262626;
+            background-color: #e5e1cf;
+        }
+
+        .bottom-nav .nav-item.active .solid-element {
+            display: block; 
+            color: #262626;
+        }
+
+        .botnav1 {
+            background-color: #f7f7eb; 
+            width: 90%;
+            height: 65px;
+            z-index: -1;
+            position: absolute;
+            top: 690px;
+            border-radius: 50px; 
+            display: none;
+        }
+
+        /* Затемнение экрана */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 2000;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .actmodal1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 2000;
+        }
+
+        .actmodal1.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Выезжающие снизу окошки */
+        .modal-sheet {
+            width: 95%;
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            height: 210px;
+            padding: 12px 24px 36px 24px;
+            box-sizing: border-box;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 45px;
+        }
+        .modsh {
+            width: 100%;
+            max-width: 450px;
+            height: 780px;
+            background-color: #e1decb;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            margin-top: -100px;
+            padding: 12px 0 24px 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+        }
+
+        .modal-overlay.open .modal-sheet {
+            transform: translateY(0);
+        }
+        .actmodal1.open .modsh {
+            transform: translateY(0);
+        }
+
+        .sheet-handle {
+            width: 38px;
+            height: 3.5px;
+            background-color: #050505;
+            border-radius: 2px;
+            margin: 2px auto 20px auto;
+            cursor: pointer;
+        }
+        .sheet-handle1 {
+            width: 40px;
+            height: 7px;
+            background-color: #050505;
+            border-radius: 2px;
+            margin: 0px auto 20px auto;
+            cursor: pointer;
+        }
+
+        .sheet-item {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 13px 0;
+            border-bottom: 0.5px solid #efeff4;
+        }
+
+        .sheet-item:last-child {
+            border-bottom: none;
+        }
+
+        .sheet-item img {
+            width: 25px;
+            height: 25px;
+            margin-right: 16px;
+            object-fit: contain;
+        }
+
+        .sheet-text1, .sheet-text2, .sheet-text3 {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000000;
+        }
+        .sheet1 {
+            height: 330px;
+            background-color: white;
+            color: #000000;
+            margin-top: 25px;
+            border-radius: 15px;
+        }
+        .name1 {
+            margin-top: 10px;
+            margin-bottom: -13px;
+            color: #000000;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .sheet1 .h3 {
+            margin-left: 15px;
+            font-size: 15px;
+            margin-bottom: 25px;
+            color: #050505;
+            font-weight: 500;
+            margin-top: 0px;
+            padding-top: 50px;
+        }
+        .sheet2 {
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px;
+            flex-grow: 1;
+            box-sizing: border-box;
+            background-color: #e1decb;
+        }
+        
+        .fio5 {
+            display: flex;
+            flex-direction: row;
+            margin-left: 45px;
+            margin-top: 20px;
+        }
+        .sheet4 {
+            height: 130px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+        .sheet4 .vids {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            padding-top: 2px;
+            margin-right: 60px;
+        }
+        .sheet4 .typvids {
+            display: flex;
+            flex-direction: column;
+            margin-left: 15px;
+        }
+        .sheet4 .typvids h2 {
+            margin-bottom: -5px;
+        }
+        .sheet5 {
+            height: 360px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+        .sheet5 .amyr h2 {
+            margin-bottom: -15px;
+        }
+        .amyr {
+            margin-top: -5px;
+        }
+        .tcksp {
+            margin-bottom: 0px;
+            padding-top: 5px;
+            margin-left: 15px;
+        }
+        .sheet5 hr {
+            margin-top: 30px;
+        }
+        .zvanna, .vos {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: -5px;
+            margin-left: 15px;
+            margin-right: 80px;
+        }
+        .vos {
+            margin-top: -10px;
+        }
+        .kat {
+            margin-bottom: 20px;
+            margin-top: 30px;
+            margin-left: 15px;
+        }
+        .kat h2 {
+            margin-top: -5px;
+        }
+        .potr {
+            margin-top: -10px;
+            margin-left: 15px;
+        }
+        .potr h2 {
+            margin-bottom: -15px;
+        }
+        .nom h2 {
+            margin-top: -5px;
+            margin-left: 15px;
+        }
+        .sheet6 {
+            height: 205px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+        }
+        .sheet6 h1 {
+            font-size: 14px;
+            padding-top: 10px;
+            margin-bottom: -5px;
+        }
+        .sheet7 {
+            height: 60px;
+            background-color: white;
+            color: #000000;
+            margin-top: 8px;
+            border-radius: 15px;
+            font-size: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .pystoy {
+            height: 40px;
+        }
+        .tel, .email {
+            padding-top: 5px;
+            margin-left: 15px;
+        }
+        .tel h2, .email h2 {
+            margin-bottom: -5px;
+        }
+        .adresa1 h2 {
+            margin-bottom: -15px;
+        }
+        .adresa {
+            margin-left: 15px;
+        }
+        .dat h2 {
+            margin-bottom: -15px;
+        }
+        .rnokpp {
+            margin-top: 5px;
+        }
+        .name3 {
+            margin-left: 15px;
+            margin-bottom: -35px;
+            padding-top: 5px;
+        }
+        .dat {
+            margin-left: 15px;
+        }
+        .cif {
+            margin-right: 50px;
+        }
+        
+        .rezd-card-container {
+            perspective: 1000px;
+            width: 100%;
+            margin-top: 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rezd-card {
+            position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .rezd-card-container.flipped .rezd-card {
+            transform: rotateY(180deg);
+        }
+
+        .rezd-face {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-sizing: border-box;
+            background-color: #d5d3be;
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .rezd-front {
+            position: relative;
+        }
+
+        .rezd-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0px 20px;
+        }
+        .rezd-back img {
+            width: 115%;
+            margin-top: -2px;
+            height: 480px;
+            z-index: 20;
+        }
+        .spov a h2 {
+            text-decoration: none;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="cont1">
+        <div class="spov">
+            <a href="spov.html"><h2>Сповіщення</h2></a>
+            <img class="din" src="din.jpg" alt="">
+        </div>
+    </div>
+    <div class="ram"></div>
+    <div class="container">
+        <div class="rezd-card-container">
+            <div class="rezd-card">
+                <div class="rezd-face rezd-front">
+                    <div class="information" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                        <div class="rezd">
+                            <h1 class="rezid">Резерв ID</h1>
+                            <img class="rezidim" src="rezidim.jpg" alt="">
+                        </div>
+                        <div class="inf">
+                            <img class="photo" src="photo2.jpg" alt="">
+                            <div class="fio1">
+                                <h2>Дата</h2>
+                                <h2>народження:</h2>
+                                <h1>10.02.1973</h1>
+                                <h2>Відстрочка до:</h2>
+                                <h1>03.05.2027</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="marquee-container">
+                        <div class="marquee-track" id="marquee-track"></div>
+                    </div>
+                    
+                    <div class="fio">
+                        <div class="fio2">
+                            <div class="h3">Військовозобов'язаний</div>
+                            <h1 class="name">СІРИЙ</h1>
+                            <h1 class="name">ОЛЕГ</h1>
+                            <h1 class="name">Анатолійович</h1>
+                        </div>
+                        <button class="implus1"><img class="implus" src="plus.jpg" alt=""></button>
+                    </div>
+                </div>
+
+                <div class="rezd-face rezd-back" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                    <img src="backqr2.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="pyst"></div>
+    <div class="botnav1"></div>
+    
+    <nav class="bottom-nav">
+        <a href="app.html" class="nav-item active" data-tab="reserve">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <rect class="solid-element" x="5" y="3" width="16" height="20" rx="1" fill="currentColor"/>
+                <line class="line-element" x1="6" y1="14" x2="20" y2="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line class="line-element" x1="6" y1="18.5" x2="20" y2="18.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-text">Резерв ID</span>
+        </a>
+        <a href="serv.html" class="nav-item" data-tab="services">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="box-1" x="1.5" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-2" x="13" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-3" x="1.5" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-4" x="13" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span class="nav-text">Сервіси</span>
+        </a>
+        <a href="vak.html" class="nav-item" data-tab="vacancies">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="solid-element" x="5" y="3" width="16" height="20" rx="2" fill="currentColor"/>
+                <rect class="diamond" x="10.5" y="8.5" width="7" height="7" transform="rotate(45 12 11)" fill="currentColor"/>
+            </svg>
+            <span class="nav-text">Вакансії</span>
+        </a>
+        <a href="menu.html" class="nav-item" data-tab="menu">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <line x1="4" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="4" y1="13.5" x2="20" y2="13.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-text">Меню</span>
+        </a>
+    </nav>
+
+    <!-- Модальное окно 1 -->
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet">
+                <a href="#" class="sheet-item">
+                    <img src="ipd1.jpg" alt="">
+                    <span class="sheet-text1">Переглянути документ</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="zpd3.jpg" alt="">
+                    <span class="sheet-text2">Завантажити PDF</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="od2.jpg" alt="">
+                    <span class="sheet-text3">Оновити документ</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно 2 (Детальный документ) -->
+    <div class="actmodal1" id="actmodal1">
+        <div class="modsh">
+            <div class="sheet-handle1"></div>
+            <div class="sheet2">
+                <div class="rezd1">
+                    <h1 class="rezid1">Резерв ID</h1>
+                    <img class="rezidim1" src="rezidim1.jpg" alt="">
+                </div>
+                <div class="marquee-container1">
+                    <div class="marquee-track1" id="marquee-track1"></div>
+                </div>
+                <div class="sheet1">
+                    <div class="name3">
+                        <div class="name1">СІРИЙ</div>
+                        <div class="name1">ОЛЕГ</div>
+                        <div class="name1">Анатолійович</div>
+                    </div>
+                    <div class="h3">Військовозобов'язаний</div>
+                    <div class="inf1">
+                        <div class="fio5">
+                            <img class="photo1" src="photo2.jpg" alt="">
+                            <div class="fio4">
+                                <div class="datanar">
+                                    <h2>Дата народження:</h2>
+                                    <h1>10.02.1973</h1>
+                                </div>
+                                <div class="rnokpp">
+                                    <h2>РНОКПП:</h2>
+                                    <h1>2670406016</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet4">
+                    <div class="vids">
+                        <h2>Відстрочка до:</h2>
+                        <h2>03.05.2027</h2>
+                    </div>
+                    <hr>
+                    <div class="typvids">
+                        <h2>Тип відстрочки:</h2>
+                        <h2>бронювання</h2>
+                    </div>
+                </div>
+                <div class="sheet5">
+                    <div class="tcksp">
+                        <h2>ТЦК та СП:</h2>
+                        <div class="amyr">
+                            <h2>Амур-Нижньодніпровський районний</h2>
+                            <h2>у місті Дніпро ТЦК та СП</h2>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="bil">
+                        <div class="zvanna">
+                            <h2>Звання:</h2>
+                            <h2>Старший сержант</h2>
+                        </div>
+                        <div class="vos">
+                            <h2>ВОС:</h2>
+                            <h2>999097</h2>
+                        </div>
+                        <div class="potr">
+                            <h2>Потребує проходження базової</h2>
+                            <h2>загальновійськової підготовки,Сержант</h2>
+                            <h2>резерву</h2>
+                        </div>
+                        <div class="kat">
+                            <h2>Категорія обліку:</h2>
+                            <h2>Військовозобов'язаний</h2>
+                        </div>
+                        <div class="nom">
+                            <h2>Номер в реєстрі Оберіг:</h2>
+                            <h2>290520251425018900384</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet6">
+                    <div class="tel">
+                        <h2>Телефон:</h2>
+                        <h2>+380 99 505 5207</h2>
+                    </div>
+                    <div class="email">
+                        <h2>Email:</h2>
+                        <h2>olllezon888@gmail.com</h2>
+                    </div>
+                    <div class="adresa">
+                        <div class="adresa2">
+                            <h1>Адреса проживання:</h1>
+                        </div>
+                        <div class="adresa1">
+                            <h2>Україна, Дніпропетровська область, с</h2>
+                            <h2>Українське, Дружби, б. 13</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet7">
+                    <div class="dat">
+                        <h2>Дата останнього</h2>
+                        <h2>уточнення даних:</h2>
+                    </div>
+                    <div class="cif">
+                        <h2>05.05.2026</h2>
+                    </div>
+                </div>
+                <div class="pystoy"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initMarquee() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const text = `Документ оновлено о ${hours}:${minutes} | ${day}.${month}.${year}`;
+            const repeatedPart = `<span style="position: relative; top: -6px">${text}</span> &nbsp;&nbsp;<span style="font-size: 24px; position: relative; top: -4px">&bull;</span> &nbsp;&nbsp;`;
+            const fullHTML = repeatedPart.repeat(6);
+
+            const trackElement = document.getElementById('marquee-track');
+            if (trackElement) trackElement.innerHTML = fullHTML;
+
+            const trackElement1 = document.getElementById('marquee-track1');
+            if (trackElement1) trackElement1.innerHTML = fullHTML;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const fileName = window.location.pathname.split("/").pop() || "index.html";
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                if (item.getAttribute('href') === fileName) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            initMarquee();
+        });
+
+        // Логика модальных окон и свайпов
+        const modal = document.getElementById('actionModal');
+        const openBtn = document.querySelector('.implus1');
+        const open1btn = document.querySelector('.sheet-item');
+        const modal1 = document.getElementById('actmodal1');
+
+        if (openBtn) {
+            openBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('open');
+            });
+        }
+
+        if (open1btn) {
+            open1btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('open'); // закрываем первое меню
+                modal1.classList.add('open'); // открываем документ
+            });
+        }
+
+        // Универсальная функция настройки свайпа и клика вне окна для закрытия
+        function setupModalSwipeAndClose(overlayElement, sheetElement) {
+            if (!overlayElement || !sheetElement) return;
+
+            // Закрытие по клику на фон
+            overlayElement.addEventListener('click', (e) => {
+                if (e.target === overlayElement) {
+                    overlayElement.classList.remove('open');
+                    sheetElement.style.transform = '';
+                }
+            });
+
+            // Закрытие по клику на полоску (handle)
+            const handle = sheetElement.querySelector('.sheet-handle, .sheet-handle1');
+            if (handle) {
+                handle.addEventListener('click', () => {
+                    overlayElement.classList.remove('open');
+                    sheetElement.style.transform = '';
+                });
+            }
+
+            // Свайп вниз
+            let startY = 0;
+            let currentY = 0;
+            let isDragging = false;
+
+            sheetElement.addEventListener('pointerdown', (e) => {
+                // Разрешаем свайп, если прокрутка наверху или клик по ручке/шапке
+                if (sheetElement.scrollTop === 0 || e.target.closest('.sheet-handle, .sheet-handle1, .rezd1')) {
+                    isDragging = true;
+                    startY = e.clientY;
+                    sheetElement.style.transition = 'none';
+                }
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (!isDragging) return;
+                currentY = e.clientY - startY;
+                if (currentY > 0) {
+                    sheetElement.style.transform = `translateY(${currentY}px)`;
+                }
+            });
+
+            window.addEventListener('pointerup', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                sheetElement.style.transition = 'transform 0.3s cubic-bezier(0.1, 1, 0.1, 1)';
+                
+                if (currentY > 100) {
+                    overlayElement.classList.remove('open');
+                    sheetElement.style.transform = '';
+                } else {
+                    sheetElement.style.transform = 'translateY(0)';
+                }
+                currentY = 0;
+            });
+        }
+
+        setupModalSwipeAndClose(modal, modal.querySelector('.modal-sheet'));
+        setupModalSwipeAndClose(modal1, modal1.querySelector('.modsh'));
+    </script>
+</body>
+</html>
