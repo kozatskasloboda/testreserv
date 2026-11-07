@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"> 
+    <title>Резерв+</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Название">
+    <link rel="apple-touch-icon" href="icon-180.png">
+    <link rel="icon" href="icon.jpg" type="image/x-icon">
+    <style>
+        * {
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #e1decb;
+            min-height: 100vh;
+            display: flex;
+            font-family: 'Montserrat', sans-serif;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        /* --- СИСТЕМА ЭКРАНОВ (БЕЗ СВАЙПОВ) --- */
+        .screens-viewport {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .screens-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.25, 1);
+            will-change: transform;
+        }
+
+        .screen {
+            min-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+            min-height: 100vh;
+        }
+
+        /* --- 1. СТИЛИ ИЗ index.html (Пин-код) --- */
+        .pin-screen-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 32px 16px;
+        }
+
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; 
+            width: 100%;             
+            max-width: 320px;        
+        }
+
+        .pin-screen-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: #171717;
+            margin-bottom: 120px;
+            margin-top: -10px;
+            letter-spacing: -0.5px;
+            text-align: left;        
+        }
+
+        .dots {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            height: 24px;
+            margin-bottom: 100px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #262626;
+        }
+
+        .keypad {
+            font-family: 'Montserrat', sans-serif;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px 20px;
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 30px;
+        }
+
+        .key-btn {
+            font-family: 'Montserrat', sans-serif;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 500;
+            color: #171717;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+
+        .key-btn-palc, .key-btn-palc1 {
+            width: 66px;
+            height: 66px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background-color: #e1decb;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 500;
+            color: #171717;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+
+        .key-btn-palc1 img {
+            width: 66px;
+            height: 66px;
+        }
+
+        .key-btn:active {
+            transform: scale(0.92);
+            background-color: #000000;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .footer-link {
+            font-size: 16px;
+            font-weight: 500;
+            color: #262626;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 64px;
+            background-color: #171717;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 3000;
+        }
+
+
+        /* --- 2. СТИЛИ ИЗ app.html (Главный экран) --- */
+        .app-inner-body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e1decb;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 390px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .container-1 {
+            background-color: transparent;
+            box-shadow: none;
+            width: 86%;
+            justify-content: center;
+            height: 20%;
+            border-radius: 5px;
+            margin-top: 5.5px;
+        }
+
+        .ram {
+            top: 148px;
+            border-radius: 7px;
+            width: 87%;
+            height: 470px;
+            position: absolute;
+            background-color: #a4a190;
+            box-shadow: none;
+            z-index: 1;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .rezid { font-size: 18px; padding-top: 5px; }
+        .rezid1 { font-size: 27px; padding-top: 5px; margin-bottom: 10px; }
+        .rezidim { width: 35px; height: 50px; padding-top: 12px; right: 10px; position: absolute; }
+        .rezidim1 { width: 50px; height: 50px; padding-top: -10px; margin-top: -10px; margin-bottom: 10px;}
+
+        .rezd h1 {
+            margin-top: 10px;
+        }
+
+        .implus {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            right: 8.5px;
+            bottom: 4px; 
+            z-index: 1;
+            border-radius: 50px;
+            object-fit: contain;
+        }
+
+        .implus1 {
+            position: relative;
+            width: 38px;
+            height: 38px;
+            right: -5px;
+            bottom: -55px;
+            border-radius: 50px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rezd-card-container.flipped .implus1 {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .rezd {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 15px;
+            margin-right: 10px;
+            padding-top: 5px;
+        }
+
+        .rezd1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-left: 0px;
+            margin-right: -10px;
+            padding-top: 0px;
+            margin-bottom: 10px;
+           
+        }
+
+        .inf {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .fio1 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -4px;
+            margin-left: -10px;
+        }
+
+        .fio1 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #545140;
+            padding-left: 15px;
+        }
+
+        .fio1 h1 {
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+
+        .fio4 {
+            display: flex;
+            flex-direction: column;
+            height: 45px;
+            font-size: 10px;
+            margin-top: -14px;
+            margin-left: -20px;
+        }
+
+        .fio4 h2 {
+            margin-top: -1px;
+            margin-bottom: -1px;
+            color: #060606;
+            padding-left: 15px;
+        }
+
+        .fio4 h1 {
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 15px;
+        }
+
+        .fio {
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+            font-size: 11px;
+            margin-top: 35px;
+            margin-left: 3px;
+            justify-content: space-between;
+            margin-right: 10px;
+        }
+
+        .photo {
+            width: 145px;
+            height: 190px;
+            margin-left: -30px;
+            border-radius: 8px;
+            margin-right: 10px;
+            left: 1%;
+            margin-top: -5px;
+            margin-bottom: -20px;
+        }
+
+        .photo1 {
+            width: 145px;
+            height: 190px;
+            margin-left: -30px;
+            border-radius: 8px;
+            margin-right: 10px;
+            left: 1%;
+            margin-top: -15px;
+        }
+
+        .cont1 { height: 150px; width: 100%; position: relative; }
+        .information { height: 325px; margin-top: -20px; }
+        .name { margin-top: -13px; margin-bottom: 10px; margin-left: 10px; }
+
+        .fio2 .h3 {
+            margin-left: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #545140;
+            font-weight: 500;
+            margin-top: -5px;
+        }
+
+        .spov {
+            background-color: white;
+            width: 140px;
+            height: 29px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 9.7px;
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            top: 40px;
+            right: 25px;
+            cursor: pointer;
+            z-index: 10;
+            
+        }
+        .spov h2 {
+            margin-top: 12px;
+        }
+
+        .din {
+            width: 20px;
+            height: 25px;
+            position: absolute;
+            right: 8px;
+            top: 2px;
+        }
+
+        .spov h2 {
+            position: absolute;
+            top: -7px;
+            right: 31px;
+        }
+
+        .pyst { height: 150px; }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #6b4c27;
+            padding: 0;
+            margin-top: -19px;
+            box-sizing: border-box;
+            height: 24px;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite; 
+            will-change: transform;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .marquee-container1 {
+            width: 400px;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #6b4c27;
+            padding: 0;
+            box-sizing: border-box;
+            height: 24px;
+            margin-left: -25px;
+        }
+
+        .marquee-track1 {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 20s linear infinite; 
+            will-change: transform;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Нижняя навигация */
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 400px;
+            height: 60px;
+            border-radius: 50px;
+            background-color: #f7f7eb; 
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 5px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .bottom-nav.hidden {
+            transform: translate(-50%, 100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #262626; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            outline: none;
+            height: 47px;
+            border-radius: 30px;
+            transition: background-color 0.2s ease;
+            padding: 3px 0;
+            flex: 1;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bottom-nav .nav-icon { width: 22px; height: 22px; margin-bottom: 3px; }
+        .bottom-nav .nav-text { line-height: 1.1; }
+        .bottom-nav .nav-item .solid-element { display: none; }
+
+        .bottom-nav .nav-item.active {
+            color: #262626;
+            background-color: #e5e1cf;
+        }
+        .bottom-nav .nav-item.active .outline-element {  }
+        .bottom-nav .nav-item.active .solid-element { display: block; color: #262626; }
+        .bottom-nav .nav-item.active .nav-text { font-weight: 700 !important; }
+        .bottom-nav .nav-item.active .line-element { stroke: white !important; }
+        .bottom-nav .nav-item.active .diamond { fill: white !important; }
+        .bottom-nav .nav-item.active [class*="box-"] { fill: #262626; stroke: #262626; }
+        .bottom-nav .nav-item.active .line1 { fill: rgb(0, 0, 0) !important;}
+
+        .botnav1 {
+            background-color: #f7f7eb; 
+            width: 90%;
+            height: 65px;
+            z-index: -1;
+            position: absolute;
+            top: 690px;
+            border-radius: 50px; 
+            display: none;
+        }
+
+        /* Модальные окна */
+        .modal-overlay, .actmodal1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 2000;
+            touch-action: none;
+        }
+
+        .modal-overlay.open, .actmodal1.open {
+            opacity: 1;
+            pointer-events: auto;
+            touch-action: auto;
+        }
+
+        .modal-sheet {
+            width: 95%;
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            height: 210px;
+            padding: 12px 24px 36px 24px;
+            box-sizing: border-box;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 45px;
+            touch-action: pan-y;
+        }
+
+        .modsh {
+            width: 100%;
+            max-width: 450px;
+            height: 780px;
+            background-color: #e1decb;
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            margin-top: -100px;
+            padding: 12px 0 24px 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        .modal-overlay.open .modal-sheet, .actmodal1.open .modsh {
+            transform: translateY(0);
+        }
+
+        .sheet-handle { width: 38px; height: 3.5px; background-color: #050505; border-radius: 2px; margin: 2px auto 20px auto; cursor: pointer; }
+        .sheet-handle1 { width: 40px; height: 7px; background-color: #050505; border-radius: 2px; margin: 0px auto 20px auto; cursor: pointer; }
+
+        .sheet-item {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: 13px 0;
+            border-bottom: 0.5px solid #efeff4;
+        }
+        .sheet-item:last-child { border-bottom: none; }
+        .sheet-item img { width: 25px; height: 25px; margin-right: 16px; object-fit: contain; }
+
+        .sheet-text1, .sheet-text2, .sheet-text3 { font-size: 16px; font-weight: 500; color: #000000; border: none; background-color:white;}
+        .sheet-text3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .sheet1 { height: 330px; background-color: white; color: #000000; margin-top: 25px; border-radius: 15px; }
+        .name1 { margin-top: 10px; margin-bottom: -13px; color: #000000; font-size: 20px; font-weight: 500; }
+        .sheet1 .h3 { margin-left: 15px; font-size: 15px; margin-bottom: 25px; color: #050505; font-weight: 500; margin-top: 0px; padding-top: 50px; }
+        .sheet2 { overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 0 24px; flex-grow: 1; box-sizing: border-box; background-color: #e1decb; }
+        
+        .fio5 { display: flex; flex-direction: row; margin-left: 45px; margin-top: 20px; }
+        .sheet4 { height: 130px; background-color: white; color: #000000; margin-top: 8px; border-radius: 15px; font-size: 10px; }
+        .sheet4 .vids { display: flex; flex-direction: row; justify-content: space-between; margin-left: 15px; padding-top: 2px; margin-right: 60px; padding: 15px 0;}
+        .sheet4 hr { color: #e1decb; }
+        .sheet4 .typvids { display: flex; flex-direction: column; margin-left: 15px; padding: 17px 0;}
+        .sheet4 .typvids h2 { margin-bottom: 10px; }
+
+        .sheet5 { height: 360px; background-color: white; color: #000000; margin-top: 8px; border-radius: 15px; font-size: 10px; }
+        .sheet5 .amyr h2 { margin-bottom: -2px;  }
+        .amyr { margin-top: -5px; padding: 15px 0; }
+        .tcksp { margin-bottom: 0px; padding-top: 15px; margin-left: 15px; }
+        .sheet5 hr { margin-top: 0px; }
+        .zvanna, .vos { display: flex; padding: 15px 0; flex-direction: row; justify-content: space-between; margin-left: 15px; margin-right: 80px; }
+        .zvanna { margin-top: -5px; }
+        .vos { margin-top: -10px; }
+        .kat { margin-bottom: 10px; margin-top: 15px; margin-left: 15px; }
+        .kat h2 { margin-top: 7px; }
+        .potr { margin-top: 0px; margin-left: 15px; }
+        .potr h2 { margin-bottom: -2px; }
+        .nom {margin-top: 5px; margin-bottom: -5px;}
+        .nom h2 { margin-top: 10px; margin-left: 15px; margin-bottom: 0px;}
+
+        .sheet6 { height: 205px; background-color: white; color: #000000; margin-top: 8px; border-radius: 15px; font-size: 10px; }
+        .sheet6 h1 { font-size: 14px; padding-top: 10px; margin-bottom: -5px; }
+        .sheet7 { height: 60px; background-color: white; color: #000000; margin-top: 8px; border-radius: 15px; font-size: 10px; display: flex; flex-direction: row; justify-content: space-between; }
+        .pystoy { height: 40px; }
+        .tel, .email { padding-top: 15px; margin-left: 15px; }
+        .tel h2, .email h2 { margin-bottom: 5px; }
+        .adresa1 h2 { margin-bottom:-15px; margin-top: 15px; }
+        .adresa { margin-left: 15px;  }
+        .dat h2 { margin-bottom: 0px; }
+        .rnokpp { margin-top: 5px; }
+        .sheet1 h3 { color: #000000; }
+        .name3 { margin-left: 15px; margin-bottom: -35px; padding-top: 5px; }
+        .dat { margin-left: 15px; margin-top: 10px;}
+        .cif { margin-right: 50px; margin-top: 10px;}
+
+        /* 3D-карточка */
+        .rezd-card-container { perspective: 1000px; width: 98%;height: 70%; margin-top: 15px; margin-left: 3.5px; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; z-index: 2; }
+        .rezd-card { position: relative; height: 100px; width: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+        .rezd-card-container.flipped .rezd-card { transform: rotateY(180deg); }
+        .rezd-face { position: absolute; width: 100%; top: 0; left: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-sizing: border-box; background-color: #d5d3be; border-radius: 5px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .rezd-front { position: relative; }
+        .rezd-back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0px 20px; }
+        .rezd-back img {width: 115%;
+            margin-top: -7px;
+            height: 480px; z-index: 20; object-fit: contain; border-radius: 5px;}
+
+        /* --- 3. СТИЛИ ИЗ serv.html (Сервисы) --- */
+        .serv-screen-body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #e1decb;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .serv-screen-body .slot {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            height: 60px;
+        }
+        .serv-screen-body .tex, .serv-screen-body .str { margin-top: 10px; }
+        .serv-screen-body .container { width: 90%; }
+        .serv-screen-body hr { color: black; }
+        .serv-screen-body .serv { margin-bottom: 40px; }
+        .serv-screen-body .serv h1 { font-weight: 500; margin-top: 30px;}
+        .tex {padding-top: 10px;}
+        .serv-screen-body .str img { width: 30px; height: 40px;  padding-top:2px; }
+
+        /* --- 4 & 5. СТИЛИ ИЗ vak.html и menu.html --- */
+        .img-screen-container img {
+            width: 110%;
+            height: 690px;
+            margin-left: 0px;
+            object-fit: contain;
+            
+        }
+
+        /* --- 6. СТИЛИ ИЗ spov.html (Сповіщення) --- */
+        .spov-screen-body {
+            background-color: #e1decb;
+            font-family: 'Montserrat', sans-serif;
+            width: 390px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+        .spov-screen-body > img {
+            width: 45px;
+            margin-left: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        
+        .cont5 {
+            width: 93%;
+            height: 140px;
+            border-radius: 15px;
+            background-color: white;
+            margin: 15px auto;
+            font-size: 15px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out, transform 0.6s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+        .cont5.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        .cont5 hr {
+            color: #dfdfdd;
+            width: 90%;
+            margin: 13px auto;
+            height: 0.5px;
+        }
+        .key-btn-palc img {
+            width: 65px;
+        }
+        .str5 {
+            margin-top: 10px;
+        }
+        .text2 { color: #898a85; margin-left: 15px; font-weight: 600; }
+        .zap { padding-top: 15px; margin-left: 15px; margin-bottom: 10px; font-weight: 600; }
+        .text1 { margin-left: 15px; font-weight: 600; }
+        .text3 { margin-left: 15px; margin-top: -3px; font-weight: 600; }
+        .spov-screen-body h1 { margin-left: 15px; margin-bottom: 30px; margin-top: 5px; font-size: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="screens-viewport">
+        <div class="screens-track" id="screensTrack">
+            
+            <!-- Индекс 0: index.html (Вход по PIN-коду) -->
+            <div class="screen" id="screen-pin">
+                <div class="pin-screen-content">
+                    <div class="header-container">
+                        <h1>Код для входу</h1>
+                    </div>
+                    <div class="dots">
+                        <div id="dot-0" class="dot"></div>
+                        <div id="dot-1" class="dot"></div>
+                        <div id="dot-2" class="dot"></div>
+                        <div id="dot-3" class="dot"></div>
+                    </div>
+                    <div class="keypad">
+                        <button onclick="pressKey('1')" class="key-btn">1</button>
+                        <button onclick="pressKey('2')" class="key-btn">2</button>
+                        <button onclick="pressKey('3')" class="key-btn">3</button>
+                        <button onclick="pressKey('4')" class="key-btn">4</button>
+                        <button onclick="pressKey('5')" class="key-btn">5</button>
+                        <button onclick="pressKey('6')" class="key-btn">6</button>
+                        <button onclick="pressKey('7')" class="key-btn">7</button>
+                        <button onclick="pressKey('8')" class="key-btn">8</button>
+                        <button onclick="pressKey('9')" class="key-btn">9</button>
+                        <button onclick="handleBiometric()" class="key-btn-palc" title="Сканер відбитку"><img src="palc.jpg" alt=""></button>
+                        <button onclick="pressKey('0')" class="key-btn">0</button>
+                        <button onclick="deleteKey()" class="key-btn-palc1" title="Видалити"><img src="crest1.jpg" alt=""></button>
+                    </div>
+                    <div>
+                        <a href="#forgot" onclick="forgotPassword(event)" class="footer-link">Не пам'ятаю код для входу</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Индекс 1: spov.html (Сповіщення — слева от главного экрана) -->
+            <div class="screen" id="screen-spov">
+                <div class="spov-screen-body">
+                    <img class="str5" src="str3.jpg" alt="" onclick="switchTab(event, 2)">
+                    <h1>Сповіщення</h1>
+                    <div class="cont5"><div class="zap"><span id="firstspov1">Отримали дані з реєстру</span></div><div class="text1"><span id="firstspov2">Резерв ID з QR-кодом уже на</span></div><div class="text3"><span id="firstspov3">головному екрані</span></div><hr><div class="text2"><span id="firstspov4">06.10.2026 о 05:47</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="secspov1">Надсилаємо запит до реєстру</span></div><div class="text1"><span id="secspov2">Ви отримаєте сповіщення</span></div><div class="text3"><span id="secspov3">про результат</span></div><hr><div class="text2"><span id="secspov4">06.10.2026 о 05:46</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="thrspov1">Отримали дані з реєстру</span></div><div class="text1"><span id="thrspov2">Резерв ID з QR-кодом уже на</span></div><div class="text3"><span id="thrspov3">головному екрані</span></div><hr><div class="text2"><span id="thrspov4">23.09.2026 о 06:22</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="4spov1">Надсилаємо запит до реєстру</span></div><div class="text1"><span id="4spov2">Ви отримаєте сповіщення</span></div><div class="text3"><span id="4spov3">про результат</span></div><hr><div class="text2"><span id="4spov4">23.09.2026 о 06:22</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="5spov1">Отримали дані з реєстру</span></div><div class="text1"><span id="5spov2">Резерв ID з QR-кодом уже на</span></div><div class="text3"><span id="5spov3">головному екрані</span></div><hr><div class="text2"><span id="5spov4">02.09.2026 о 07:00</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="6spov1">Надсилаємо запит до реєстру</span></div><div class="text1"><span id="6spov2">Ви отримаєте сповіщення</span></div><div class="text3"><span id="6spov3">про результат</span></div><hr><div class="text2"><span id="6spov4">02.09.2026 о 06:58</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="7spov1">Отримали дані з реєстру</span></div><div class="text1"><span id="7spov2">Резерв ID з QR-кодом уже на</span></div><div class="text3"><span id="7spov3">головному екрані</span></div><hr><div class="text2"><span id="7spov4">31.08.2026 о 08:08</span></div></div>
+                    <div class="cont5"><div class="zap"><span id="8spov1">Надсилаємо запит до реєстру</span></div><div class="text1"><span id="8spov2">Ви отримаєте сповіщення</span></div><div class="text3"><span id="8spov3">про результат</span></div><hr><div class="text2"><span id="8spov4">31.08.2026 о 08:07</span></div></div>
+                </div>
+            </div>
+
+            <!-- Индекс 2: app.html (Главный экран Резерв ID) -->
+            <div class="screen" id="screen-app">
+                <div class="app-inner-body">
+                    <div class="cont1">
+                        <div class="spov" onclick="switchTab(event, 1)">
+                            <h2>Сповіщення</h2>
+                            <img class="din" src="din.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="ram"></div>
+                    <div class="container-1">
+                        <div class="rezd-card-container">
+                            <div class="rezd-card">
+                                <div class="rezd-face rezd-front">
+                                    <div class="information" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                                        <div class="rezd">
+                                            <h1 class="rezid">Резерв ID</h1>
+                                            <img class="rezidim" src="rezidim.jpg" alt="">
+                                        </div>
+                                        <div class="inf">
+                                            <img class="photo" src="photo2.jpg" alt="">
+                                            <div class="fio1">
+                                                <h2>Дата</h2>
+                                                <h2>народження:</h2>
+                                                <h1>10.02.1973</h1>
+                                                <h2>Відстрочка до:</h2>
+                                                <h1>03.05.2027</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="marquee-container">
+                                        <div class="marquee-track" id="marquee-track"></div>
+                                    </div>
+                                    <div class="fio">
+                                        <div class="fio2">
+                                            <div class="h3">Військовозобов'язаний</div>
+                                            <h1 class="name">СІРИЙ</h1>
+                                            <h1 class="name">ОЛЕГ</h1>
+                                            <h1 class="name">Анатолійович</h1>
+                                        </div>
+                                        <button class="implus1"><img class="implus" src="plus.jpg" alt=""></button>
+                                    </div>
+                                </div>
+                                <div class="rezd-face rezd-back" onclick="this.closest('.rezd-card-container').classList.toggle('flipped')">
+                                    <img src="backqr23.jpg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pyst"></div>
+                    <div class="botnav1"></div>
+                </div>
+            </div>
+
+            <!-- Индекс 3: serv.html (Сервисы) -->
+            <div class="screen" id="screen-serv">
+                <div class="serv-screen-body">
+                    <div class="pyst" style="height: 5px;"></div>
+                    <div class="container">
+                        <div class="serv"><h1>Сервіси</h1></div>
+                        <div class="services">
+                            <div class="slot"><div class="tex">Виправити дані онлайн</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Електронна черга в ТЦК та СП</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Запит на відстрочку</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Направлення на ВЛК</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Розширені дані з реєстру</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Стати на облік</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Уточнити контактні дані</div><div class="str"><img src="str.jpg" alt=""></div></div><hr>
+                            <div class="slot"><div class="tex">Штрафи</div><div class="str"><img src="str.jpg" alt=""></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Индекс 4: vak.html (Вакансии) -->
+            <div class="screen" id="screen-vak">
+                <div class="img-screen-container" style="display: flex; justify-content: center; width: 100%;">
+                    <img src="vak12.jpg" alt="">
+                </div>
+            </div>
+
+            <!-- Индекс 5: menu.html (Меню) -->
+            <div class="screen" id="screen-menu">
+                <div class="img-screen-container" style="display: flex; justify-content: center; width: 100%;">
+                    <img src="men1.jpg" alt="">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Нижняя навигация -->
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="#" class="nav-item active" onclick="switchTab(event, 2, this)">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/>
+                <rect class="solid-element" x="5" y="3" width="16" height="20" rx="1" fill="currentColor"/>
+                <line class="line-element" x1="6" y1="14" x2="20" y2="14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line class="line-element" x1="6" y1="18.5" x2="20" y2="18.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-text">Резерв ID</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchTab(event, 3, this)">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="box-1" x="1.5" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-2" x="13" y="1.5" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-3" x="1.5" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="box-4" x="13" y="14" width="8" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span class="nav-text">Сервіси</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchTab(event, 4, this)">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <rect class="outline-element" x="5" y="3" width="16" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect class="solid-element" x="5" y="3" width="16" height="20" rx="2" fill="currentColor"/>
+                <rect class="diamond" x="10.5" y="8.5" width="7" height="7" transform="rotate(45 12 11)" fill="currentColor"/>
+            </svg>
+            <span class="nav-text">Вакансії</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchTab(event, 5, this)">
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+                <line class="line1" x1="4" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line class="line1" x1="4" y1="13.5" x2="20" y2="13.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <line class="line1" x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="nav-text">Меню</span>
+        </a>
+    </nav>
+
+    <!-- Модальное окно плюсика -->
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal-sheet" id="modalSheet">
+            <div class="sheet-handle" id="sheetHandle"></div>
+            <div class="sheet">
+                <a href="#" class="sheet-item" id="openFullModalBtn">
+                    <img src="ipd1.jpg" alt="">
+                    <span class="sheet-text1">Переглянути документ</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="zpd3.jpg" alt="">
+                    <span class="sheet-text2">Завантажити PDF</span>
+                </a>
+                <a href="#" class="sheet-item">
+                    <img src="od2.jpg" alt="">
+                    <button class="sheet-text3" id="onovdoc">Оновити документ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно полного документа -->
+    <div class="actmodal1" id="actmodal1">
+        <div class="modsh" id="modsh">
+            <div class="sheet-handle1" id="sheetHandle1"></div>
+            <div class="sheet2">
+                <div class="rezd1">
+                    <h1 class="rezid1">Резерв ID</h1>
+                    <img class="rezidim1" src="rezidim1.jpg" alt="">
+                </div>
+                <div class="marquee-container1">
+                    <div class="marquee-track1" id="marquee-track1"></div>
+                </div>
+                <div class="sheet1">
+                    <div class="name3">
+                        <div class="name1">СІРИЙ</div>
+                        <div class="name1">ОЛЕГ</div>
+                        <div class="name1">Анатолійович</div>
+                    </div>
+                    <div class="h3">Військовозобов'язаний</div>
+                    <div class="inf1">
+                        <div class="fio5">
+                            <img class="photo1" src="photo2.jpg" alt="">
+                            <div class="fio4">
+                                <div class="datanar">
+                                    <h2>Дата народження:</h2>
+                                    <h1>10.02.1973</h1>
+                                </div>
+                                <div class="rnokpp">
+                                    <h2>РНОКПП:</h2>
+                                    <h1>2670406016</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet4">
+                    <div class="vids">
+                        <h2>Відстрочка до:</h2>
+                        <h2>03.05.2027</h2>
+                    </div>
+                    <hr>
+                    <div class="typvids">
+                        <h2>Тип відстрочки:</h2>
+                        <h2>бронювання</h2>
+                    </div>
+                </div>
+                <div class="sheet5">
+                    <div class="tcksp">
+                        <h2>ТЦК та СП:</h2>
+                        <div class="amyr">
+                            <h2>2 відділ Синельниківського РТЦК</h2>
+                            <h2>та СП (Петропавлівка)</h2>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="bil">
+                        <div class="zvanna">
+                            <h2>Звання:</h2>
+                            <h2>Солдат</h2>
+                        </div>
+                        <div class="vos">
+                            <h2>ВОС:</h2>
+                            <h2>999097</h2>
+                        </div>
+                        <div class="potr">
+                            <h2>Потребує проходження базової</h2>
+                            <h2>загальновійськової підготовки,Солдат</h2>
+                            <h2>резерву</h2>
+                        </div>
+                        <div class="kat">
+                            <h2>Категорія обліку:</h2>
+                            <h2>Військовозобов'язаний</h2>
+                        </div>
+                        <div class="nom">
+                            <h2>Номер в реєстрі Оберіг:</h2>
+                            <h2>290520251425018900384</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet6">
+                    <div class="tel">
+                        <h2>Телефон:</h2>
+                        <h2>+380 99 505 5207</h2>
+                    </div>
+                    <div class="email">
+                        <h2>Email:</h2>
+                        <h2>olllezon888@gmail.com</h2>
+                    </div>
+                    <div class="adresa">
+                        <div class="adresa2">
+                            <h1>Адреса проживання:</h1>
+                        </div>
+                        <div class="adresa1">
+                            <h2>Україна, Дніпропетровська область, с</h2>
+                            <h2>Українське, Дружби, б. 13</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="sheet7">
+                    <div class="dat">
+                        <h2>Дата останнього</h2>
+                        <h2>уточнення даних:</h2>
+                    </div>
+                    <div class="cif">
+                        <h2>05.05.2026</h2>
+                    </div>
+                </div>
+                <div class="pystoy"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast">Успішний вхід!</div>
+
+    <script>
+        let notifications = JSON.parse(localStorage.getItem('mynot')) || [];
+        let currentPin = '';
+        const correctPin = '1973';
+        const onov = document.getElementById('onovdoc');
+        const first11 = document.getElementById('firstspov1');
+        const first12 = document.getElementById('firstspov2');
+        const first13 = document.getElementById('firstspov3');
+        const first14 = document.getElementById('firstspov4');
+        const sec11 = document.getElementById('secspov1');
+        const sec12 = document.getElementById('secspov2');
+        const sec13 = document.getElementById('secspov3');
+        const sec14 = document.getElementById('secspov4');
+        const thr11 = document.getElementById('thrspov1');
+        const thr12 = document.getElementById('thrspov2');
+        const thr13 = document.getElementById('thrspov3');
+        const thr14 = document.getElementById('thrspov4');
+        const four11 = document.getElementById('4spov1');
+        const four12 = document.getElementById('4spov2');
+        const four13 = document.getElementById('4spov3');
+        const four14 = document.getElementById('4spov4');
+        const five11 = document.getElementById('5spov1');
+        const five12 = document.getElementById('5spov2');
+        const five13 = document.getElementById('5spov3');
+        const five14 = document.getElementById('5spov4');
+        const six11 = document.getElementById('6spov1');
+        const six12 = document.getElementById('6spov2');
+        const six13 = document.getElementById('6spov3');
+        const six14 = document.getElementById('6spov4');
+        const seven11 = document.getElementById('7spov1');
+        const seven12 = document.getElementById('7spov2');
+        const seven13 = document.getElementById('7spov3');
+        const seven14 = document.getElementById('7spov4');
+        const eight11 = document.getElementById('8spov1');
+        const eight12 = document.getElementById('8spov2');
+        const eight13 = document.getElementById('8spov3');
+        const eight14 = document.getElementById('8spov4');
+
+let historyList2 = JSON.parse(localStorage.getItem('my_full_history2')) || [];
+const MAX_HISTORY = 8;
+
+function getCurrentFormattedDate() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); 
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${day}.${month}.${year} о ${hours}:${minutes}`;
+}
+function getCurrentFormattedDate1() {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0'); 
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${day}.${month}.${year} | ${hours}:${minutes}`;
+}
+
+const idPrefixes = ['first', 'sec', 'thr', '4', '5', '6', '7', '8'];
+
+// 2. Функция вывода данных на экран по всем 8 блокам
+function renderHistory() {
+    for (let i = 0; i < idPrefixes.length; i++) {
+        const prefix = idPrefixes[i];
+        
+        const el1 = document.getElementById(prefix + 'spov1');
+        const el2 = document.getElementById(prefix + 'spov2');
+        const el3 = document.getElementById(prefix + 'spov3');
+        const el4 = document.getElementById(prefix + 'spov4');
+
+        if (historyList2[i]) {
+            if (el1) el1.textContent = historyList2[i].line1;
+            if (el2) el2.textContent = historyList2[i].line2;
+            if (el3) el3.textContent = historyList2[i].line3;
+            if (el4) el4.textContent = historyList2[i].time;
+        } else {
+            if (el1) el1.textContent = '';
+            if (el2) el2.textContent = '';
+            if (el3) el3.textContent = '';
+            if (el4) el4.textContent = '';
+        }
+    }
+}
+
+// Первоначальное заполнение из HTML, если хранилище пустое
+if (historyList2.length === 0) {
+    for (let i = 0; i < idPrefixes.length; i++) {
+        const prefix = idPrefixes[i];
+        const el1 = document.getElementById(prefix + 'spov1');
+        const el2 = document.getElementById(prefix + 'spov2');
+        const el3 = document.getElementById(prefix + 'spov3');
+        const el4 = document.getElementById(prefix + 'spov4');
+
+        if (el1 && el1.textContent.trim() !== '') {
+            historyList2.push({
+                line1: el1.textContent,
+                line2: el2 ? el2.textContent : '',
+                line3: el3 ? el3.textContent : '',
+                time: el4 ? el4.textContent : ''
+            });
+        }
+    }
+    localStorage.setItem('my_full_history2', JSON.stringify(historyList2));
+}
+
+renderHistory();
+
+
+if (onov) {
+    onov.addEventListener('click', function() {
+        let startTime = getCurrentFormattedDate();
+        
+
+        // ШАГ 1: По клику СРАЗУ добавляем на самый верх (индекс 0) плашку "Надсилаємо запит..."
+        // Вся старая история (включая прошлый успешный результат) улетает вниз, как на скриншоте.
+        let requestBlock = {
+            line1: "Надсилаємо запит до реєстру",
+            line2: "Ви отримаєте сповіщення",
+            line3: "про результат",
+            time: startTime
+        };
+
+        historyList2.unshift(requestBlock);
+
+        if (historyList2.length > MAX_HISTORY) {
+            historyList2.pop();
+        }
+
+        localStorage.setItem('my_full_history2', JSON.stringify(historyList2));
+        renderHistory();
+
+        setTimeout(function() {
+            let startTime = getCurrentFormattedDate();
+            let timestart = getCurrentFormattedDate1();
+
+            let requestBlock = {
+                line1: "Отримали дані з реєстру",
+                line2: "Резерв ID з QR-кодом уже на",
+                line3: "головному екрані",
+                time: startTime
+            };
+
+            historyList2.unshift(requestBlock);
+
+            if (historyList2.length > MAX_HISTORY) {
+                historyList2.pop();
+            }
+
+            localStorage.setItem('my_full_history2', JSON.stringify(historyList2));
+            renderHistory();
+            initMarquee(timestart);
+            initMarquee1(timestart);
+            
+        }, 10000);
+    });
+}
+
+
+        function pressKey(digit) {
+            if (currentPin.length < 4) {
+                currentPin += digit;
+                updateDots();
+                if (currentPin.length === 4) {
+                    setTimeout(verifyPin, 150);
+                }
+            }
+        }
+
+        function deleteKey() {
+            if (currentPin.length > 0) {
+                currentPin = currentPin.slice(0, -1);
+                updateDots();
+            }
+        }
+
+        function updateDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < currentPin.length) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            }
+        }
+
+        function verifyPin() {
+            if (currentPin === correctPin) {
+                showToast('Вхід успішно виконано!');
+                sessionStorage.setItem("session_active", "true");
+                setTimeout(() => {
+                    goToScreen(2);
+                }, 400);
+            } else {
+                showToast('Невірний код (спробуйте 1973)');
+                setTimeout(() => {
+                    currentPin = '';
+                    updateDots();
+                }, 400);
+            }
+        }
+
+        function handleBiometric() {
+            showToast('Сканування відбитку пальця...');
+            setTimeout(() => {
+                showToast('Біометричний вхід успішний!');
+                sessionStorage.setItem("session_active", "true");
+                goToScreen(2);
+            }, 1000);
+        }
+
+        function forgotPassword(e) {
+            e.preventDefault();
+            showToast('Відновлення доступу...');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        function initMarquee(date1) {
+    // Если передали новую дату (date1) — сохраняем её в localStorage
+    let finalDate = date1;
+    
+    if (finalDate) {
+        localStorage.setItem('marquee_date', finalDate);
+    } else {
+        // Если функцию вызвали при загрузке страницы (без аргументов), 
+        // берем сохраненную дату из памяти или генерируем текущую
+        finalDate = localStorage.getItem('marquee_date') || getCurrentFormattedDate();
+    }
+    
+    const text = `Документ оновлено о ${finalDate}`;
+    const repeatedPart = `<span style="position: relative; top: -6px">${text}</span>   <span style="font-size: 24px; position: relative; top: -4px">•</span>   `;
+    const trackElement = document.getElementById('marquee-track');
+    if (trackElement) trackElement.innerHTML = repeatedPart.repeat(6);
+}
+
+        function initMarquee1(date1) {
+            // Если передали новую дату (date1) — сохраняем её в localStorage
+    let finalDate = date1;
+    
+    if (finalDate) {
+        localStorage.setItem('marquee_date', finalDate);
+    } else {
+        // Если функцию вызвали при загрузке страницы (без аргументов), 
+        // берем сохраненную дату из памяти или генерируем текущую
+        finalDate = localStorage.getItem('marquee_date') || getCurrentFormattedDate();
+    }
+    
+    const text = `Документ оновлено о ${finalDate}`;
+    const repeatedPart = `<span style="position: relative; top: -6px">${text}</span>   <span style="font-size: 24px; position: relative; top: -4px">•</span>   `;
+    const trackElement = document.getElementById('marquee-track1');
+    if (trackElement) trackElement.innerHTML = repeatedPart.repeat(6);
+        }
+        initMarquee();
+        initMarquee1();
+        let currentScreenIndex = 0;
+
+        function goToScreen(index) {
+            currentScreenIndex = index;
+            const track = document.getElementById('screensTrack');
+            const bottomNav = document.getElementById('bottomNav');
+            const cont5Elements = document.querySelectorAll('.cont5');
+
+            if (track) {
+                track.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            if (bottomNav) {
+                if (index === 0 || index === 1) {
+                    bottomNav.classList.add('hidden');
+                } else {
+                    bottomNav.classList.remove('hidden');
+                }
+            }
+
+            if (index === 1) {
+                cont5Elements.forEach((el, i) => {
+                    setTimeout(() => el.classList.add('visible'), i * 60);
+                });
+            } else {
+                cont5Elements.forEach(el => el.classList.remove('visible'));
+            }
+        }
+
+        function switchTab(event, index, element) {
+            if (event) event.preventDefault();
+            goToScreen(index);
+
+            if (element) {
+                document.querySelectorAll('.bottom-nav .nav-item').forEach(item => item.classList.remove('active'));
+                element.classList.add('active');
+            } else if (index >= 2 && index <= 5) {
+                const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+                navItems.forEach((item, idx) => {
+                    if (idx === index - 2) item.classList.add('active');
+                    else item.classList.remove('active');
+                });
+            }
+        }
+
+       document.addEventListener("DOMContentLoaded", () => {
+            
+
+            const isSessionActive = sessionStorage.getItem("session_active");
+            if (isSessionActive) {
+                goToScreen(2);
+                const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+                if (navItems.length > 0) navItems[0].classList.add('active');
+            } else {
+                goToScreen(0);
+            }
+        });
+
+        // Модальные окна и логика свайпа/закрытия
+        const modal = document.getElementById('actionModal');
+        const sheetModal = document.getElementById('modalSheet');
+        const openBtn = document.querySelector('.implus1');
+        
+        const modal1 = document.getElementById('actmodal1');
+        const docSheet = document.getElementById('modsh');
+        const open1btn = document.getElementById('openFullModalBtn');
+
+        // Открытие первого модального окна
+        if (openBtn && modal) {
+            openBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('open');
+            });
+        }
+
+        // Закрытие по клику на темный фон первой шторки
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('open');
+            });
+        }
+
+        // Открытие полного документа
+        if (open1btn && modal1) {
+            open1btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (modal) modal.classList.remove('open');
+                modal1.classList.add('open');
+            });
+        }
+
+        // Закрытие по клику на темный фон второй шторки
+        if (modal1) {
+            modal1.addEventListener('click', (e) => {
+                if (e.target === modal1) modal1.classList.remove('open');
+            });
+        }
+
+        // --- Универсальная функция для реализации свайпа вниз на мобильных устройствах ---
+        function enableSwipeToClose(sheetElement, closeCallback) {
+            if (!sheetElement) return;
+
+            let startY = 0;
+            let currentY = 0;
+            let isDragging = false;
+
+            sheetElement.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+                isDragging = true;
+                sheetElement.style.transition = 'none';
+            }, { passive: true });
+
+            sheetElement.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                currentY = e.touches[0].clientY - startY;
+                if (currentY > 0) {
+                    sheetElement.style.transform = `translateY(${currentY}px)`;
+                }
+            }, { passive: true });
+
+            sheetElement.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+                sheetElement.style.transition = 'transform 0.3s cubic-bezier(0.1, 1, 0.1, 1)';
+
+                if (currentY > 100) {
+                    closeCallback();
+                } else {
+                    sheetElement.style.transform = 'translateY(0)';
+                }
+                currentY = 0;
+            });
+        }
+
+        // Применяем свайп для обеих шторок
+        enableSwipeToClose(sheetModal, () => {
+            modal.classList.remove('open');
+            sheetModal.style.transform = '';
+        });
+
+        enableSwipeToClose(docSheet, () => {
+            modal1.classList.remove('open');
+            docSheet.style.transform = '';
+        });
+    </script>
+</body>
+</html>
